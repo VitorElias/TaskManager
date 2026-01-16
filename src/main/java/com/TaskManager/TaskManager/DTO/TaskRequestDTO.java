@@ -1,14 +1,23 @@
 package com.TaskManager.TaskManager.DTO;
 
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
 
+@JsonPropertyOrder({"titulo","prioridade","descricao"})
 public class TaskRequestDTO  implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @JsonProperty(value = "titulo")
     private String titulo;
+
+    @JsonProperty(value = "descricao")
     private String descricao;
+
+    @JsonProperty(value = "prioridade")
     private Prioridade prioridade;
 
     public TaskRequestDTO() {

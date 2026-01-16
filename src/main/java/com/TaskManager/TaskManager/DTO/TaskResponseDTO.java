@@ -2,29 +2,39 @@ package com.TaskManager.TaskManager.DTO;
 
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
 import com.TaskManager.TaskManager.Model.Enum.Status;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@JsonPropertyOrder({"ID","titulo","descricao","statusTarefa","prioridadeTarefa","ativo","dataCriacao","dataConclusao"})
 public class TaskResponseDTO implements Serializable {
 
     private static final Long SerialVersionUID = 1L;
 
+    @JsonProperty(value = "ID")
     private Long id;
 
+    @JsonProperty(value = "título")
     private String titulo;
 
+    @JsonProperty(value = "descrição")
     private String descricao;
 
+    @JsonProperty(value = "statusTarefa")
     private Status status;
 
+    @JsonProperty(value = "prioridadeTarefa")
     private Prioridade prioridade;
 
+    @JsonProperty(value = "ativo")
     private boolean ativo;
 
+    @JsonProperty(value = "dataCriacao")
     private LocalDateTime dataCriacao;
 
+    @JsonProperty(value = "dataConclusao")
     private LocalDateTime dataconclusao;
 
     public TaskResponseDTO(Long id, String titulo, String descricao, Status status, Prioridade prioridade, boolean ativo, LocalDateTime dataCriacao, LocalDateTime dataconclusao) {
