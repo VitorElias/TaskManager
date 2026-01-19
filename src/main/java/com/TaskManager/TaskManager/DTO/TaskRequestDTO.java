@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@JsonPropertyOrder({"titulo","prioridade","descricao"})
+@JsonPropertyOrder({"titulo","prioridade","descricao","data_Conclusao"})
 public class TaskRequestDTO  implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,13 +21,25 @@ public class TaskRequestDTO  implements Serializable {
     @JsonProperty(value = "prioridade")
     private Prioridade prioridade;
 
+    @JsonProperty(value = "data_Conclusao")
+    private LocalDateTime dataConclusao;
+
     public TaskRequestDTO() {
     }
 
-    public TaskRequestDTO(String titulo, String descricao, Prioridade prioridade) {
+    public TaskRequestDTO(String titulo, String descricao, Prioridade prioridade, LocalDateTime dataConclusao) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.prioridade = prioridade;
+        this.dataConclusao = dataConclusao;
+    }
+
+    public LocalDateTime getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public void setDataConclusao(LocalDateTime dataConclusao) {
+        this.dataConclusao = dataConclusao;
     }
 
     public String getTitulo() {

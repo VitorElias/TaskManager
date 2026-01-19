@@ -31,24 +31,24 @@ public class Task implements Serializable {
     public Task() {
     }
 
-    public Task(Long id, String titulo, String descricao, Status ptatus, Prioridade prioridade, boolean ativo, LocalDateTime dataCriacao, LocalDateTime dataConclusao) {
+    public Task(Long id, String titulo, String descricao, Status ptatus, Prioridade prioridade, LocalDateTime dataConclusao) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.ptatus = ptatus;
         this.prioridade = prioridade;
-        this.ativo = ativo;
-        this.dataCriacao = dataCriacao;
+        this.ativo = true;
+        this.dataCriacao = LocalDateTime.now();
         this.dataConclusao = dataConclusao;
     }
 
-    public Task(String titulo, String descricao, Status ptatus, Prioridade prioridade, boolean ativo, LocalDateTime dataCriacao, LocalDateTime dataConclusao) {
+    public Task(String titulo, String descricao, Status ptatus, Prioridade prioridade, LocalDateTime dataConclusao) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.ptatus = ptatus;
         this.prioridade = prioridade;
-        this.ativo = ativo;
-        this.dataCriacao = dataCriacao;
+        this.ativo = true;
+        this.dataCriacao = LocalDateTime.now();
         this.dataConclusao = dataConclusao;
     }
 
