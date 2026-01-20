@@ -56,6 +56,16 @@ public class TaskService {
         return lists;
     }
 
+    public List<TaskResponseDTO> atrasadas(){
+
+        List<TaskResponseDTO> lists = new ArrayList<>();
+        for(Task t : tasks){
+            if(t.getDataConclusao().isBefore(LocalDateTime.now())) lists.add(taskMapper.toDto(t));
+        }
+
+        return lists;
+    }
+
     public List<TaskResponseDTO> listByStatus(Status status){
 
         List<TaskResponseDTO> lists = new ArrayList<>();
@@ -80,27 +90,17 @@ public class TaskService {
 
     }
 
-    public List<TaskResponseDTO> atrasadas(){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-        for(Task t : tasks){
-            if(t.getDataConclusao().isBefore(LocalDateTime.now())) lists.add(taskMapper.toDto(t));
-        }
-
-        return lists;
-    }
-
     public TaskResponseDTO findById(Long id){
 
         for(Task task2 : tasks){
-            if(task2.equals(id)) return taskMapper.toDto(task2);
+            if(task2.getId().equals(id)) return taskMapper.toDto(task2);
         }
 
         throw new NotFound("Não foi encontrado no banco de dados");
     }
 
     public Task findByIdTask(Long id){
-        for(Task task2 : tasks){if(task2.equals(id)) return task2;}
+        for(Task task2 : tasks){if(task2.getId().equals(id)) return task2;}
 
         throw new NotFound("Não foi encontrado no banco de dados");
     }
