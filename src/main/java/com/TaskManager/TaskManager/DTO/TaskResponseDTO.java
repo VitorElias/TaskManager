@@ -2,6 +2,7 @@ package com.TaskManager.TaskManager.DTO;
 
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
 import com.TaskManager.TaskManager.Model.Enum.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -32,9 +33,11 @@ public class TaskResponseDTO implements Serializable {
     private boolean ativo;
 
     @JsonProperty(value = "dataCriacao")
+    @JsonFormat(pattern = "yyyy-MM-dd HH")
     private LocalDateTime dataCriacao;
 
     @JsonProperty(value = "dataConclusao")
+    @JsonFormat(pattern = "yyyy-MM-dd HH")
     private LocalDateTime dataconclusao;
 
     public TaskResponseDTO(Long id, String titulo, String descricao, Status status, Prioridade prioridade, boolean ativo, LocalDateTime dataCriacao, LocalDateTime dataconclusao) {

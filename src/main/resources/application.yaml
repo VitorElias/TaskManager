@@ -1,3 +1,9 @@
 spring:
   application:
     name: TaskManager
+
+  devtools:
+     restart:
+       enabled: true
+     liveredload:
+       enabled : true☺

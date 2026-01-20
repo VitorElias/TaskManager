@@ -1,6 +1,7 @@
 package com.TaskManager.TaskManager.DTO;
 
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -22,6 +23,7 @@ public class TaskRequestDTO  implements Serializable {
     private Prioridade prioridade;
 
     @JsonProperty(value = "data_Conclusao")
+    @JsonFormat(pattern = "yyyy-MM-dd HH")
     private LocalDateTime dataConclusao;
 
     public TaskRequestDTO() {
