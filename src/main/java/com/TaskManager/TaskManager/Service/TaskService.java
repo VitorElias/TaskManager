@@ -7,104 +7,77 @@ import com.TaskManager.TaskManager.Mapper.TaskMapper;
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
 import com.TaskManager.TaskManager.Model.Enum.Status;
 import com.TaskManager.TaskManager.Model.Task;
+import com.TaskManager.TaskManager.Repository.TaskRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
 @Service
 public class TaskService {
 
+    private TaskRepository taskRepository;
+
     private TaskMapper taskMapper;
 
-    private List<Task> tasks = new ArrayList<Task>();
 
-    private AtomicLong al = new AtomicLong(0);
-
-    TaskService(TaskMapper tm){
+    TaskService(TaskMapper tm, TaskRepository tr){
         this.taskMapper = tm;
+        this.taskRepository = tr;
     }
 
+    @Transactional
     public TaskResponseDTO create(TaskRequestDTO taskDto){
-        Task task = new Task(al.addAndGet(1),taskDto.getTitulo(),
+        Task task = new Task(taskDto.getTitulo(),
                 taskDto.getDescricao(),
                 Status.PENDENTE,
                 taskDto.getPrioridade(),
                 taskDto.getDataConclusao());
-
-        tasks.add(task);
+        taskRepository.save(task);
         return taskMapper.toDto(task);
     }
 
     public List<TaskResponseDTO> listAll(){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-        for(Task taskDto : tasks) {
-            lists.add(taskMapper.toDto(taskDto));
-        }
-        return lists;
+        return taskMapper.toListDto(taskRepository.findAll());
     }
 
-    public List<TaskResponseDTO> listAllAtivo(){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-        for(Task taskDto : tasks){
-            if(taskDto.isAtivo()) lists.add(taskMapper.toDto(taskDto));
-        }
-        return lists;
+    public List<TaskResponseDTO> listAllAtivo() {
+        return taskMapper.toListDto(taskRepository.findByAtivoTrue());
     }
 
     public List<TaskResponseDTO> atrasadas(){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-        for(Task t : tasks){
-            if(t.getDataConclusao().isBefore(LocalDateTime.now())) lists.add(taskMapper.toDto(t));
-        }
-
-        return lists;
+        return taskMapper.toListDto(taskRepository.findByPtatus(Status.ATRASADA));
     }
 
     public List<TaskResponseDTO> listByStatus(Status status){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-
-        if(status == null) throw new NotFound("Status é nulo");
-
-        for(Task taskDto : tasks){if(status.equals(taskDto.getPtatus())) lists.add(taskMapper.toDto(taskDto));}
-
-        return lists;
-
+        return taskMapper.toListDto(taskRepository.findByPtatus(status));
     }
 
     public List<TaskResponseDTO> listByPrioridade(Prioridade prioridade){
-
-        List<TaskResponseDTO> lists = new ArrayList<>();
-
-        if(prioridade == null) throw new NotFound("Prioridade é nulo");
-
-        for(Task taskDto : tasks){if(prioridade.equals(taskDto.getPrioridade())) lists.add(taskMapper.toDto(taskDto));}
-
-        return lists;
-
+        return taskMapper.toListDto(taskRepository.findByPrioridade(prioridade));
     }
 
     public TaskResponseDTO findById(Long id){
 
-        for(Task task2 : tasks){
-            if(task2.getId().equals(id)) return taskMapper.toDto(task2);
-        }
+        Optional<Task> taskOpt = taskRepository.findById(id);
 
-        throw new NotFound("Não foi encontrado no banco de dados");
+        if(taskOpt.isEmpty()) throw new NotFound("Não foi encontrado no banco de dados");
+
+        Task t = taskOpt.get();
+
+        return taskMapper.toDto(t);
     }
 
     public Task findByIdTask(Long id){
-        for(Task task2 : tasks){if(task2.getId().equals(id)) return task2;}
+        Optional<Task> taskOpt = taskRepository.findById(id);
 
-        throw new NotFound("Não foi encontrado no banco de dados");
+        if(taskOpt.isEmpty()) throw new NotFound("Não foi encontrado no banco de dados");
+
+        return taskOpt.get();
     }
 
+    @Transactional
     public TaskResponseDTO updateTask(Long id, TaskRequestDTO tak2){
 
         Task t = findByIdTask(id);
@@ -117,6 +90,7 @@ public class TaskService {
         return taskMapper.toDto(t);
     }
 
+    @Transactional
     public String updateStatus(Long id, Status stats){
 
         Task t = this.findByIdTask(id);
@@ -125,6 +99,7 @@ public class TaskService {
         return "A tarefa com o Titulo "+t.getTitulo()+" está com o status: "+stats.getDescricao();
     }
 
+    @Transactional
     public String concluido(Long id){
 
         Task t = this.findByIdTask(id);
@@ -133,6 +108,7 @@ public class TaskService {
         return "A tarefa foi Concluida com sucesso";
     }
 
+    @Transactional
     public String DesativarTarefa(Long id){
 
         Task t = this.findByIdTask(id);
@@ -144,6 +120,7 @@ public class TaskService {
         return "A tarefa com o id = "+t.getId()+"Foi deletada";
     }
 
+    @Transactional
     public String ativarTarefa(Long id){
 
         Task t = this.findByIdTask(id);

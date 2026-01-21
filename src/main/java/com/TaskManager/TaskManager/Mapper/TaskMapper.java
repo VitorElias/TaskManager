@@ -5,6 +5,9 @@ import com.TaskManager.TaskManager.DTO.TaskResponseDTO;
 import com.TaskManager.TaskManager.Model.Task;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class TaskMapper {
 
@@ -32,6 +35,16 @@ public class TaskMapper {
                 task.getDataCriacao(),
                 task.getDataConclusao()
         );
+    }
+
+    public List<TaskResponseDTO> toListDto(List<Task> tasks){
+
+        List<TaskResponseDTO> task = new ArrayList<>();
+
+        for(Task t : tasks){
+            task.add(this.toDto(t));
+        }
+        return task;
     }
 
 }

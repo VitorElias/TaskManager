@@ -6,6 +6,7 @@ public enum Status {
 
     PENDENTE("Pendente"),
     EM_ANDAMENTO("Em_Andamento"),
+    ATRASADA("Atrasada"),
     CONCLUIDA("Concluida");
 
     private final String descricao;

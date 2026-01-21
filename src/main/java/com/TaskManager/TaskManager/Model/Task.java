@@ -2,29 +2,42 @@ package com.TaskManager.TaskManager.Model;
 
 import com.TaskManager.TaskManager.Model.Enum.Prioridade;
 import com.TaskManager.TaskManager.Model.Enum.Status;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
+    @Column(name = "titulo", nullable = false )
     private String titulo;
 
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    @Column(name = "pstatus" , nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status ptatus;
 
+    @Column(name = "prioridade", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Prioridade prioridade;
 
+    @Column(name = "ativo", nullable = false)
     private boolean ativo;
 
+    @Column(name = "dataCriacao", nullable = false)
     private LocalDateTime dataCriacao;
 
+    @Column(name = "dataConclusao", nullable = false)
     private LocalDateTime dataConclusao;
 
 

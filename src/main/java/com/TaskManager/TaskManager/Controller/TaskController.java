@@ -24,13 +24,13 @@ public class TaskController {
     @GetMapping("/")
     public ResponseEntity<List<TaskResponseDTO>> listAll(){return ResponseEntity.ok().body(taskService.listAll());}
 
-    @GetMapping("/inativo")
+    @GetMapping("/ativo")
     public ResponseEntity<List<TaskResponseDTO>> listAlAtivo(){return ResponseEntity.ok().body(taskService.listAllAtivo());}
 
-    @GetMapping("/{status}")
+    @GetMapping("/status/{status}")
     public ResponseEntity<List<TaskResponseDTO>> listByStatus(@PathVariable Status status){return ResponseEntity.ok().body(taskService.listByStatus(status));}
 
-    @GetMapping("/{prioridade}")
+    @GetMapping("/prioridade/{prioridade}")
     public ResponseEntity<List<TaskResponseDTO>> listByPrioridade(@PathVariable Prioridade prioridade){return ResponseEntity.ok().body(taskService.listByPrioridade(prioridade));}
 
     @GetMapping("/{id}")
